@@ -17,7 +17,9 @@ export default class App extends Component {
                 <Link to="/">Public page</Link>
               </li>
               <li>
-                <a href="http://localhost:9001/auth/github">login</a>
+                <a href={`http://localhost:${process.env.PORT}/auth/github`}>
+                  login
+                </a>
               </li>
               <li>
                 <Link to="/register">Register</Link>
