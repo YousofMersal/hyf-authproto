@@ -1,10 +1,6 @@
 const passport = require('passport')
 const router = require('express').Router()
 
-router.post('/login', (req, res) => {
-  res.send(req.User)
-})
-
 router.get(
   '/github',
   passport.authenticate('github', {
