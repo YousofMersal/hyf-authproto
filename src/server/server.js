@@ -17,7 +17,11 @@ app.use(
 )
 app.use(passport.initialize())
 app.use(passport.session())
-app.use('/auth', authRouter)
+app.use('/auth', authRouter.router)
+
+app.post('/api/profile', authRouter.authCheck, (req, res) => {
+  res.send(req.user)
+})
 
 app.get('/*', (req, res) => {
   const indexPath = path.join(buildPath, 'index.html')
