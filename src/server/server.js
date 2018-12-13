@@ -1,12 +1,22 @@
 require('dotenv').config()
 const express = require('express')
-const app = express()
 const authRouter = require('./auth/routes.js')
 const path = require('path')
+const passportSetup = require('./auth/passport-setup')
+const cookieSession = require('cookie-session')
+const passport = require('passport')
 const port = process.env.PORT || 9001
 const buildPath = path.join(__dirname, '../../build')
-const passportSetup = require('./auth/passport-setup')
+const app = express()
 app.use(express.static(buildPath))
+app.use(
+  cookieSession({
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY]
+  })
+)
+app.use(passport.initialize())
+app.use(passport.session())
 app.use('/auth', authRouter)
 
 app.get('/*', (req, res) => {
