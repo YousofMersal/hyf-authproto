@@ -9,7 +9,7 @@ router.get(
 )
 
 router.get('/github/redirect', passport.authenticate('github'), (req, res) => {
-  res.send('you reached the callback uri')
+  res.redirect('/')
 })
 
 module.exports = router

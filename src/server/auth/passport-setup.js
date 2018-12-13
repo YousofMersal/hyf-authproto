@@ -1,7 +1,26 @@
 const mysql = require('mysql')
 const connection = mysql.createConnection(process.env.JAWSDB_URL)
 const passport = require('passport')
-const GitHubStrategy = require('passport-github')
+const GitHubStrategy = require('passport-github').Strategy
+
+passport.serializeUser((user, done) => {
+  done(null, user.github_id)
+})
+
+passport.deserializeUser((id, done) => {
+  connection.connect()
+  connection.query(
+    'select * FROM users where github_id = ?',
+    [id],
+    (err, results, fields) => {
+      if (err) {
+        throw new Error('Something went wrong while retriving a users id!\n' + err)
+      } else {
+        done(null, results[0])
+      }
+    }
+  )
+})
 
 passport.use(
   new GitHubStrategy(
@@ -34,12 +53,13 @@ passport.use(
                 if (err) {
                   throw new Error('Whoops! could not add GitHub User to DB!' + err)
                 } else {
+                  done(null, results[0])
                   return results
                 }
               }
             )
           } else {
-            console.log(results)
+            done(null, results[0])
           }
         }
       )
