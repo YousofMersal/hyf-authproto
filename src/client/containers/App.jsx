@@ -1,33 +1,55 @@
 import React, { Component } from 'react'
-// import userSignin from '../components/AJAX'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import Login from '../components/Login'
+import LoginButton from '../components/LoginButton'
 import Public from '../components/Public'
-import Protected from '../components/Protected'
-import Register from '../components/Register'
+import Profile from '../components/Profile'
+import { getProfileInfo, isLoggedIn } from '../api/apiCalls'
 
 export default class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { isAuthenticated: false, user: {} }
+  }
+
+  componentDidMount() {
+    isLoggedIn()
+      .then(res => {
+        res
+          ? this.setState({
+              isAuthenticated: true
+            })
+          : this.setState({
+              isAuthenticated: false
+            })
+      })
+      .then(() => {
+        if (this.state.isAuthenticated) {
+          getProfileInfo().then(res => this.setState({ user: res.data }))
+        }
+      })
+  }
+
   render() {
     return (
       <Router>
         <div>
           <nav>
             <ul>
+              {this.state.isAuthenticated ? (
+                <Link to="/profile">Profile</Link>
+              ) : null}
               <li>
-                <Link to="/">Public page</Link>
+                <Link to="/">Landing Page</Link>
               </li>
-              <li>
-                <a href="http://localhost:9001/auth/github">login</a>
-              </li>
-              <li>
-                <Link to="/register">Register</Link>
-              </li>
+              <LoginButton isAuthenticated={this.state.isAuthenticated} />
             </ul>
           </nav>
           <Route exact path="/" component={Public} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/protected" component={Protected} />
-          <Route exact path="/Register" component={Register} />
+          <Route
+            exact
+            path="/profile"
+            component={props => <Profile {...props} user={this.state.user} />}
+          />
         </div>
       </Router>
     )
