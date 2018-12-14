@@ -6,9 +6,7 @@ export default class LoginButton extends Component {
     if (!this.props.isAuthenticated) {
       return (
         <li>
-          <a
-            href="https://hyf-authproto.herokuapp.com//auth/github"
-            className="loginbutton">
+          <a href="/auth/github" className="loginbutton">
             login
           </a>
         </li>
@@ -16,9 +14,7 @@ export default class LoginButton extends Component {
     } else {
       return (
         <li>
-          <a
-            href="https://hyf-authproto.herokuapp.com//auth/github/logout"
-            className="loginbutton">
+          <a href="/auth/github/logout" className="loginbutton">
             logout
           </a>
         </li>
