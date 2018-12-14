@@ -12,6 +12,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    //Checks if the user is logged in and authenticated after mounting
     isLoggedIn()
       .then(res => {
         res
@@ -23,6 +24,7 @@ export default class App extends Component {
             })
       })
       .then(() => {
+        //if the user is authenticated fetch information from db and store it in state
         if (this.state.isAuthenticated) {
           getProfileInfo().then(res => this.setState({ user: res.data }))
         }
@@ -35,6 +37,7 @@ export default class App extends Component {
         <div>
           <nav>
             <ul>
+              {/* If user is logged in displays a profile link to view profile */}
               {this.state.isAuthenticated ? (
                 <Link to="/profile">Profile</Link>
               ) : null}

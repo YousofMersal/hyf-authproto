@@ -45,6 +45,7 @@ async function isLoggedIn() {
       console.log(err.config)
     })
     .then(res => {
+      // This checks if the user exists in our database. And returns a bool accordingly
       if ('id' in res.data) {
         return true
       } else {
