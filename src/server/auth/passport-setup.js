@@ -67,14 +67,19 @@ passport.use(
                 } else {
                   //then send to passport.js for serialization the user we just created and tell it that we're done
                   //checking if the user exists
-                  done(null, results[0])
-                  return results
+                  setTimeout(() => {
+                    done(null, results[0])
+                    return results[0]
+                  }, 1000)
                 }
               }
             )
           } else {
             //if user already exists and there is no need for a new user send the existing user to passport.js for serialization
-            done(null, results[0])
+            setTimeout(() => {
+              done(null, results[0])
+              return results[0]
+            }, 1000)
           }
         }
       )
