@@ -47,7 +47,7 @@ passport.use(
       pool.query(
         'select * FROM users WHERE github_id = ?',
         [profile._json.id],
-        (err, results, fields) => {
+        async (err, results, fields) => {
           if (err) {
             throw new Error('Something went wrong in fething a user!' + err)
           } else if (results === undefined || results.length === 0) {
@@ -61,25 +61,21 @@ passport.use(
                 profile._json.type,
                 profile._json.avatar_url
               ],
-              (err, results, fields) => {
+              async (err, results, fields) => {
                 if (err) {
                   throw new Error('Whoops! could not add GitHub User to DB!' + err)
                 } else {
                   //then send to passport.js for serialization the user we just created and tell it that we're done
                   //checking if the user exists
-                  setTimeout(() => {
-                    done(null, results[0])
-                    return results[0]
-                  }, 1000)
+                  await done(null, results[0])
+                  return await results[0]
                 }
               }
             )
           } else {
             //if user already exists and there is no need for a new user send the existing user to passport.js for serialization
-            setTimeout(() => {
-              done(null, results[0])
-              return results[0]
-            }, 1000)
+            await done(null, results[0])
+            return await results[0]
           }
         }
       )
