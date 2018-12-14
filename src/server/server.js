@@ -5,6 +5,7 @@ const authRouter = require('./auth/routes.js')
 const path = require('path')
 // Even though we don't use this variable anywhere, if it's not required the authentication dosen't work.
 // I'll get back to it and figure it out.
+// eslint-disable-next-line no-unused-vars
 const passportSetup = require('./auth/passport-setup')
 const cookieSession = require('cookie-session')
 const passport = require('passport')
