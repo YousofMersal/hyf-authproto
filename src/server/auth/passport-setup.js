@@ -65,21 +65,31 @@ passport.use(
                 profile._json.type,
                 profile._json.avatar_url
               ],
-              async (err, results, fields) => {
+              (err, results, fields) => {
                 if (err) {
                   throw new Error('Whoops! could not add GitHub User to DB!' + err)
                 } else {
+                  const user = {
+                    id: results.insertId,
+                    avatar: profile._json.avatar_url,
+                    name: profile._json.name,
+                    type: profile._json.type,
+                    github_login: profile._json.login,
+                    github_id: profile._json.id
+                  }
+                  console.log(user)
                   //then send to passport.js for serialization the user we just created and tell it that we're done
                   //checking if the user exists
-                  await done(null, results[0])
-                  return await results[0]
+                  done(null, user)
+                  return user
                 }
               }
             )
           } else {
+            console.log(results)
             //if user already exists and there is no need for a new user send the existing user to passport.js for serialization
-            await done(null, results[0])
-            return await results[0]
+            done(null, results[0])
+            return results[0]
           }
         }
       )
