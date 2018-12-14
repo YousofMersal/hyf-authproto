@@ -50,7 +50,11 @@ passport.use(
         async (err, results, fields) => {
           if (err) {
             throw new Error('Something went wrong in fething a user!' + err)
-          } else if (results === undefined || results.length === 0) {
+          } else if (
+            results === undefined ||
+            results.length === 0 ||
+            results[0].github_id === undefined
+          ) {
             //If no user is found with the provided id, create one.
             pool.query(
               'INSERT INTO users (github_id, name, github_login, type, avatar) VALUES( ?, ?, ?, ?, ?)',
