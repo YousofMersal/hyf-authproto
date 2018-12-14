@@ -13,7 +13,7 @@ export default class LoginButton extends Component {
     } else {
       return (
         <li>
-          <a href="http://localhost:9001/" className="loginbutton">
+          <a href="http://localhost:9001/auth/github/logout" className="loginbutton">
             logout
           </a>
         </li>
