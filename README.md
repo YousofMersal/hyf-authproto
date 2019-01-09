@@ -11,6 +11,12 @@ Acceptance criteria:
 
 Resources: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
 
+##Start developing
+
+To start developing first create a `.env` file at the root of the project and set the environment variables stated below. Then open two terminal instances and first run `npm run server` then in the other terminal instance run `npm start`.
+Change the loginbutton.jsx file, so that the login and the logout buttons point to the absolute path `http://localhost:9001/auth/github` and `http://localhost:9001/auth/github/logout`
+so it will work in local development.
+
 ## Environmental variables used.
 
 - CALLBACK= The callback used when registering your app at OAuth2.0 provider.
